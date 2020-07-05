@@ -1,34 +1,35 @@
 import React ,{useState} from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import Profilecard from './components/Profilecard';
 import { Container} from 'semantic-ui-react'
 import Header from './components/Header';
-import { Input } from 'semantic-ui-react'
-import { Button } from 'semantic-ui-react'
+
 import axios from 'axios';
+import Searchbar from './components/Searchbar';
 function App() {
 
 
-  const [state, setstate] = useState({inputvalue:"" })
+  const [state, setstate] = useState({})
 
-let getData=()=>{
+let getData=(username)=>{
 
-axios.get(`https://api.github.com/users/${state.inputvalue}/repos`).then(data=>{
-console.log(data.data);
+axios.get(`https://api.github.com/users/${username}/repos`).then(data=>{
+
+
+
+if(data.data[0])
+{
+  setstate(data.data[0]);
+}
+
 
 })
 
 
 }
 
-let changeInputvalue=(event)=>{
-  
 
-  setstate({
-    inputvalue:event.target.value
-  })
-}
 
 
   return (
@@ -39,13 +40,10 @@ let changeInputvalue=(event)=>{
 
 <Header/>
 
-<Input focus placeholder='Search...' onChange={(event)=>changeInputvalue(event)} />
 
-<Button basic color='teal' style={{marginLeft:30}} onClick={getData}>
-    Search User
-    </Button>
-    
-    <Profilecard style={{marginTop:30}}/>
+<Searchbar getData={getData} />
+
+    <Profilecard style={{marginTop:30}} userdata={state}/>
 
     </Container>
 

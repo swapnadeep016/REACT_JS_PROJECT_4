@@ -1,25 +1,48 @@
 import React, { Component } from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 export default class Profilecard extends Component {
+
+
+  constructor(props)
+  {
+   
+
+    super(props);
+
+    this.state={
+      image:'https://react.semantic-ui.com/images/avatar/large/matthew.png',
+      name:'Matthew'
+    }
+  }
+
+
+
+  componentDidUpdate(prevProps, prevState)
+  {
+    console.log(this.props);
+
+
+    if (prevProps.userdata !== this.props.userdata) {
+      this.setState({
+        image:this.props.userdata.owner.avatar_url,
+        name:this.props.userdata.full_name,
+      })
+  }
+    
+  }
+  
+
+
     render() {
         return (
             <Card>
-    <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
+    <Image src={this.state.image} wrapped ui={false} />
     <Card.Content>
-      <Card.Header>Matthew</Card.Header>
-      <Card.Meta>
-        <span className='date'>Joined in 2015</span>
-      </Card.Meta>
-      <Card.Description>
-        Matthew is a musician living in Nashville.
-      </Card.Description>
+        <Card.Header>{this.state.name}</Card.Header>
+  
+   
     </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name='user' />
-        22 Friends
-      </a>
-    </Card.Content>
+   
   </Card>
         )
     }
